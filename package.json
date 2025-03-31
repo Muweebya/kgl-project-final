@@ -1,0 +1,29 @@
+{
+  "name": "kgl-project-final",
+  "version": "1.0.0",
+  "description": "kgl project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Muweebya/kgl-project-final.git"
+  },
+  "author": "Phoebe Muweebya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Muweebya/kgl-project-final/issues"
+  },
+  "homepage": "https://github.com/Muweebya/kgl-project-final#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "local": "^0.3.3",
+    "mongoose": "^8.13.1",
+    "nodemon": "^3.1.9",
+    "passport": "^0.7.0",
+    "pug": "^3.0.3"
+  }
+}
