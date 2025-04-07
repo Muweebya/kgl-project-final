@@ -1,65 +1,79 @@
 const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
 
-const procurementSchema = new mongoose.Schema({
-    producename:{
+const creditSchema = new mongoose.Schema({
+    buyername:{
         type:String,
         trim:true,
         required:true,
         
     },
 
-    typeofproduce:{
+    location:{
         type:String,
         trim:true,
         required:true,
 
     },
-    dateandtime: {
-        type:Date,
-        trim:true,
-        required:true,
-
-    },
-    tonnage:{
-        type:Number,
-        trim:true,
-        required:true,
-        
-
-    },
-    cost:{
-        type:Number,
-        trim:true,
-        required:true,
-        
-
-    },
-    dealername:{
+    nationalid: {
         type:String,
         trim:true,
         required:true,
-        
 
-    },
-    branch:{
-        type:String,
-        trim:true,
-        required:true,
     },
     contact:{
         type:Number,
         trim:true,
         required:true,
+        
+
     },
-    pricesold:{
+    duedate:{
+        type:Date,
+        trim:true,
+        required:true,
+        
+
+    },
+    dateofdispatch:{
+        type:Date,
+        trim:true,
+        required:true,
+        
+
+    },
+    producename:{
+        type:String,
+        trim:true,
+        required:true,
+    },
+    typeofproduce:{
+        type:String,
+        trim:true,
+        required:true,
+    },
+    tonnage:{
         type:Number,
         trim:true,
         required:true,
     },
+    amountdue:{
+        type:Number,
+        trim:true,
+        required:true,
+    },
+    salesagentname:{
+        type:String,
+        trim:true,
+        required:true,
+    }
+
+
+
+
 
 
 
 }); 
 
-module.exports = mongoose.model('produce', procurementSchema);
+module.exports = mongoose.model('creditor', creditSchema);

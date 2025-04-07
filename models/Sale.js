@@ -50,8 +50,5 @@ const salesSchema = new mongoose.Schema({
 
 
 }); 
-registrationSchema.plugin(passportLocalMongoose,{
-    usernameField: 'EmailAddress'
-    
-})
-module.exports = mongoose.model('registration', registrationSchema);
+
+module.exports = mongoose.model('sale', salesSchema);

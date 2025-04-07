@@ -29,20 +29,12 @@ const registrationSchema = new mongoose.Schema({
         unique:true,
 
     },
-    password:{
-        type:String,
-        trim:true,
-        required:true,
-        unique:true,
+    
 
-    },
-    passwordrepeat:{
-        type:String,
-        trim:true,
-        required:true,
-        unique:true,
+    
+    
 
-    }
+    
 });
 registrationSchema.plugin(passportLocalMongoose,{
     usernameField: 'emailaddress'
