@@ -5,10 +5,12 @@ head
   title Buyers on Credit
 link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous')
 h1 Buyers on Credit
-table#salestable.table.table-striped.table-hover.border.1
+table#creditTable.table.table-striped.table-hover.border.border-1
+
   thead
     tr
-      th(scope='col') Buyer&apos;s Name
+      th(scope='col') Buyer's Name
+      th(scope='col') Location
       th(scope='col') National ID
       th(scope='col') Contact
       th(scope='col') Due Date
@@ -17,18 +19,22 @@ table#salestable.table.table-striped.table-hover.border.1
       th(scope='col') Type of Produce
       th(scope='col') Tonnage(kgs)
       th(scope='col') Amount due(Ugx)
-      th(scope='col') Sales Agent&apos;s Name
+      th(scope='col') Sales Agent's Name
   tbody
     if creditors.length 
-     each creditor in creditors
-     tr
-      td#{creditor.buyername}
-      td#{creditor.location}
-      td#{creditor.contact}
-      td#{creditor.duedate}
-      td#{creditor.dateofdispatch}
-      td#{creditor.producename}
-      td#{creditor.tonnage}
-      td#{creditor.amountdue}
-      td#{creditor.salesagentname}
+      each creditor in creditors
+        tr
+          td #{creditor.buyername}
+          td #{creditor.location}
+          td #{creditor.nationalid}
+          td #{creditor.contact}
+          td #{creditor.duedate}
+          td #{moment(creditor.dateofdispatch).format(DD-MM-YYYY)}
+          td #{creditor.producename}
+          td #{creditor.typeofproduce}
+          td #{creditor.tonnage}
+          td #{creditor.amountdue}
+          td #{creditor.salesagentname}
+          td 
+            a.btn.btn-primary.btn-block(href="/credit/updateCreditor/"+creditor._id) Update
       

@@ -26,9 +26,19 @@ const registrationSchema = new mongoose.Schema({
         type:String,
         trim:true,
         required:true,
-        unique:true,
+        
 
     },
+    password:{
+        type:String,
+        trim:true,
+        required:true,  
+    },
+    passwordrepeat:{
+        type:String,
+        trim:true,
+        required:true, 
+    } 
     
 
     

@@ -10,9 +10,9 @@ router.get("/addSale", (req,res) =>{
 
 router.post("/addSale", async (req,res) =>{ 
     try{
-        const sale = new sale(req.body);
-        await sale.save()
-        console.log(sale)
+        const newSale = new Sale(req.body);
+        await newSale.save();
+        console.log(newSale);
         res.redirect("/sales/salesList")
     }catch (error) {
         res.status(400).render("sales");
@@ -36,5 +36,33 @@ router.get("/salesList", async(req,res) => {
     }
     
 })
+
+router.get("/updateSale/:id", async(req,res) => {
+try{
+    const updateSale = await Sale.findOne({_id:req.params.id});
+    res.render("updatesale", {sale:updateSale});
+}catch(error){
+    res.status(400).send("Unable to find items in the database")
+}
+})
+router.post("/updateSale", async(req,res) => {
+    try{
+      // Use your existing variable name
+      const updateSale = await Sale.findOneAndUpdate(
+        {_id: req.query.id},
+        req.body,
+        {new: true}
+      );
+      
+      // Add logging to check if update is successful
+      console.log("Updated sale:", updateSale);
+      
+      // Use absolute path for redirect
+      res.redirect("/sales/salesList");
+    }catch(error){
+      console.log("Update error:", error);
+      res.status(400).send("Unable to update item in the database")
+    }
+  })
 
 module.exports = router;

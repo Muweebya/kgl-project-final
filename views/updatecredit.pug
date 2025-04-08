@@ -1,0 +1,45 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Update Buyers on credit
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous')
+h1  Update Buyers on Credit
+.container
+  form#credit-form(action='/credit/updateCreditor?id='+creditor._id method='post' onsubmit='return formValidate()')
+    .mb-3
+      label.form-label(for='buyername') Buyer&apos;s Name
+      input#buyername.form-control(type='text' name='buyername' value=creditor.buyername)
+    .mb-3
+      label.form-label(for='location') Location
+      input#location.form-control(type='text' name='location' value=creditor.location)
+    .mb-3
+      label.form-label(for='produceType') National ID
+      input#nationalid.form-control(type='text' name='nationalid' value=creditor.nationalid)
+    .mb-3
+      label.form-label(for='contact') Contact (Valid Phone Number)
+      input#contact.form-control(type='tel' pattern='[0-9]{10}' name='contact' value=creditor.contact)
+      .form-text Enter a 10-digit valid phone number.
+    .mb-3
+      label.form-label(for='dateTime') Due Date
+      input#duedate.form-control(type='datetime-local' name='duedate' value=creditor.duedate)
+    .mb-3
+      label.form-label(for='dateTime') Date of dispatch
+      input#dateofdispatch.form-control(type='datetime-local' name='dateofdispatch' value=creditor.dateofdispatch)
+    .mb-3
+      label.form-label(for='produceName') Produce Name
+      input#produceName.form-control(type='text' name='producename' value=creditor.producename)
+    .mb-3
+      label.form-label(for='typeofproduce') Type of Produce
+      input#typeofproduce.form-control(type='text' name='typeofproduce' value=creditor.typeofproduce)
+    .mb-3
+      label.form-label(for='tonnage') Tonnage (in kgs)
+      input#tonnage.form-control(type='number' min='1' name='tonnage' value=creditor.tonnage)
+    .mb-3
+      label.form-label(for='amountdue') Amount due (in UgX)
+      input#amountdue.form-control(type='number' min='1' name='amountdue' value=creditor.amountdue)
+    .mb-3
+      label.form-label(for='salesAgentName') Sales Agent&apos;s Name
+      input#salesAgentName.form-control(type='text' name='salesagentname' value=creditor.salesagentname)
+    button.btn.btn-primary(type='submit') Submit
+  script(src='credit.js')

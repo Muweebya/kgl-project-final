@@ -1,90 +1,110 @@
 const express = require("express");
-
 const router = express.Router();
 const passport = require("passport");
-//import models
-const registration = require("../models/Registration");
+// Import the Registration model with consistent capitalization
+const Registration = require("../models/Registration");
 
 router.get("/register", (req, res) => {
-    res.render("registration")
-})
+    res.render("registration");
+});
 
 router.post("/register", async (req, res) => {
     try {
-        const user = new registration(req.body);
-        let existingUser = await registration.findOne({
+        const user = new Registration(req.body);
+        let existingUser = await Registration.findOne({
             emailaddress: req.body.emailaddress
         });
+        
         if (existingUser) {
-            return res.status(400).send("Not registered, email already existes")
+            return res.status(400).send("Not registered, email already exists");
         } else {
-            await registration.register(user, req.body.password, (error) => {
-                if (error) {
-                    throw error;
-                }
-                res.redirect("/login")
-            })
+            
+            Registration.register(user, req.body.password)
+                .then(() => {
+                    res.redirect("/login");
+                })
+                .catch(error => {
+                    console.log(error);
+                    res.status(400).render("registration");
+                });
         }
-
-
-        console.log(user)
-
     } catch (error) {
-        res.status(400).render("registration");
         console.log(error);
-
-
-
+        res.status(400).render("registration");
     }
-
-
 });
 
 router.get("/login", (req, res) => {
-    res.render("login")
-
-})
+    res.render("login");
+});
 
 router.post("/login", passport.authenticate("local", { failureRedirect: "/login" }), (req, res) => {
     console.log(req.body);
     req.session.user = req.user;
-    if(req.user.role === "manager"){
-        res.redirect("/managerDash")
-    }else if(req.user.role === "salesagent"){
-        res.redirect("/salesagentDash")
-    }else if(req.user.role === "director"){
-        res.redirect("/directorDash")
-    }else{
-        res.send("You don't have any role in the system")
+    
+    if (req.user.role === "manager") {
+        res.redirect("/managerDash");
+    } else if (req.user.role === "salesagent") {
+        res.redirect("/salesagentDash");
+    } else if (req.user.role === "director") {
+        res.redirect("/directorDash");
+    } else {
+        res.send("You don't have any role in the system");
     }
-    
-    
-    
-})
+});
 
-
-router.get("/logout", (req,res) => {
-    if(req.session){
-        req.session.destory((error) => {
-            if(error){
-                return res.status(500).send("Error logging out")
+router.get("/logout", (req, res) => {
+    if (req.session) {
+        // Fixed the typo: destory -> destroy
+        req.session.destroy((error) => {
+            if (error) {
+                return res.status(500).send("Error logging out");
             }
-            res.redirect("/")
-        })
+            res.redirect("/");
+        });
+    } else {
+        res.redirect("/");
     }
-})
+});
 
-router.get("/usersList", async(req,res) => {
-    try{
-        const users = await Registration.find().sort({$natural:-1});
+router.get("/usersList", async (req, res) => {
+    try {
+        
+        const users = await Registration.find().sort({$natural: -1});
         res.render("usersList", {
-            users:users
-        })
-    }catch(error){
-        res.status(400).send("Unable to find users in the database")
+            users: users
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send("Unable to find users in the database");
     }
-    
+});
+router.get("/updateUser/:id", async(req,res) => {
+try{
+    const updateUser = await Registration.findOne({_id:req.params.id});
+    res.render("updateusers", {registration:updateUser});
+}catch(error){
+    res.status(400).send("Unable to find user in the database")
+}
 })
-
+router.post("/updateUser", async(req,res) => {
+    try{
+      // Use your existing variable name
+      const updateUser = await Registration.findOneAndUpdate(
+        {_id: req.query.id},
+        req.body,
+        {new: true}
+      );
+      
+      // Add logging to check if update is successful
+      console.log("Updated user:", updateUser);
+      
+      // Use absolute path for redirect
+      res.redirect("/register/usersList");
+    }catch(error){
+      console.log("Update error:", error);
+      res.status(400).send("Unable to update user in the database")
+    }
+  })
 
 module.exports = router;

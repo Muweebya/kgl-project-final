@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Login Page
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet')
+    link(href='login.css' rel='stylesheet')
+  body
+    .container.mt-5.d-flex.justify-content-center.align-items-center.flex-column
+      .col-md-7.text-center
+        h1 Welcome to Karibu Groceries Limited
+      .card.p-4.shadow-lg.rounded(style='width: 350px;')
+        svg.mx-auto.d-block(xmlns='http://www.w3.org/2000/svg' width='80px' height='80px' fill='currentColor' viewbox='0 0 16 16')
+          path(d='M2.97 1.35A1 1 0 0 1 ...') // keep full path
+        h3.text-center.mb-3 KGL Login
+        form#login-form
+          .mb-3
+            label.form-label(for='exampleInputEmail1') Email address
+            input#email.form-control(type='email' aria-describedby='emailHelp')
+          .mb-3
+            label.form-label(for='exampleInputPassword1') Password
+            input#password.form-control(type='password')
+          .mb-3.form-check
+            input#exampleCheck1.form-check-input(type='checkbox')
+            label.form-check-label(for='exampleCheck1') Remember me
+          button#submit-button.btn.btn-primary.w-100(type='submit') Submit
+    script(src='login.js')

@@ -4,17 +4,18 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const moment = require('moment')
 const session = require('express-session')({
   secret: "secret",
   resave: false,
   saveUninitialized: false,
 });
 //import user model
-const registration = require("../models/Registration");
-const sale = require("../models/Sale");
-console.log("Registration module:", registration);
-console.log("Directory name:", __dirname);
-console.log("Current working directory:", process.cwd());
+const registration = require("./models/Registration");
+const sale = require("./models/Sale");
+const credit = require("./models/Credit");
+const produce = require("./models/Procurement");
+
 require('dotenv').config();
 //instantiations
 const app = express();
@@ -28,10 +29,11 @@ const salesAgentRoutes = require("./routes/salesAgentRoutes");
 const directorRoutes = require("./routes/directorRoutes");
 const indexRoutes = require("./routes/indexRoutes");
 const creditRoutes = require("./routes/creditRoutes");
+const { appendFileSync } = require('fs');
 
 
 //configurations
-
+app.locals.moment = moment;
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true
