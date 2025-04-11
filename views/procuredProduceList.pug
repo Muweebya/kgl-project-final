@@ -24,7 +24,7 @@ table#procuredTable.table.table-striped.table-hover.border.border-1
         tr
           td #{produce.producename}
           td #{produce.typeofproduce}
-          td #{moment(produce.dateandtime).format(DD-MM-YYYY)}
+          td #{moment(produce.dateandtime).format('DD-MM-YYYY')}
           td #{produce.tonnage}
           td #{produce.cost}
           td #{produce.dealername}
@@ -33,4 +33,9 @@ table#procuredTable.table.table-striped.table-hover.border.border-1
           td #{produce.pricesold}
           td 
             a.btn.btn-primary.btn-block(href="/procurement/updateProduct/"+produce._id) Update
+          td 
+            form(action="procurement/deleteProduce" method="post")
+              input(type="hidden" name="id" value=produce._id)
+              button.btn.btn-danger.btn-block(type="submit") Delete
+
       

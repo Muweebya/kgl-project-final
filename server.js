@@ -5,6 +5,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const moment = require('moment')
+const ensureLogin = require('connect-ensure-login');
 const session = require('express-session')({
   secret: "secret",
   resave: false,

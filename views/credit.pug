@@ -18,7 +18,7 @@ h1   Buyers on Credit
       input#nationalid.form-control(type='text' name='nationalid' )
     .mb-3
       label.form-label(for='contact') Contact (Valid Phone Number)
-      input#contact.form-control(type='tel' pattern='[0-9]{10}' name='contact' )
+      input#contact.form-control(type='tel' pattern= name='contact' )
       .form-text Enter a 10-digit valid phone number.
     .mb-3
       label.form-label(for='dateTime') Due Date
@@ -42,4 +42,4 @@ h1   Buyers on Credit
       label.form-label(for='salesAgentName') Sales Agent&apos;s Name
       input#salesAgentName.form-control(type='text' name='salesagentname' )
     button.btn.btn-primary(type='submit') Submit
-  script(src='credit.js')
+  script(src='/js/credit.js')

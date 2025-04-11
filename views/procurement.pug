@@ -11,11 +11,22 @@ html(lang='en')
       form#procurementForm(action='/procurement/addProduct' method='post')
         .form-group.mb-3
           label.form-label(for='produceName') Produce Name
-          input#produceName.form-control(type='text'  name='producename')
+          select#produceName.form-control( name='producename')
+            option(selected='') Select Produce
+            option(value='beans') Beans
+            option(value='grains') Grains
+            option(value='maize') Maize
+            option(value='cowpeas') Cow peas 
+            option(value='soybeans') Soy Beans 
+            option(value='gnuts') G-nuts
+            
         
         .form-group.mb-3
           label.form-label(for='produceType') Type of Produce
-          input#produceType.form-control(type='text'  name='typeofproduce')
+          select#produceType.form-control( name='typeofproduce')
+            option(selected='') Select Type of Produce
+            option(value='legumes') Legumes
+            option(value='cereals') Cereals
         
         .form-group.mb-3
           label.form-label(for='dateTime') Date &amp; Time
@@ -37,9 +48,9 @@ html(lang='en')
           label.form-label(for='branchName') Branch Name
           select#branchName.form-control( name='branch')
             option(selected='') Select Branch
-            option(value='branch1') Maganjo
-            option(value='branch2') Matuga
-            option(value='branch3') Dealer
+            option(value='maganjo') Maganjo
+            option(value='matuga') Matuga
+            option(value='dealer') Dealer
         
         .form-group.mb-3
           label.form-label(for='contact') Contact (Valid Phone Number)

@@ -37,4 +37,9 @@ table#creditTable.table.table-striped.table-hover.border.border-1
           td #{creditor.salesagentname}
           td 
             a.btn.btn-primary.btn-block(href="/credit/updateCreditor/"+creditor._id) Update
+          td 
+            form(action="credit/deleteCreditor" method="post")
+              input(type="hidden" name="id" value=creditor._id)
+              button.btn.btn-danger.btn-block(type="submit") Delete
+
       

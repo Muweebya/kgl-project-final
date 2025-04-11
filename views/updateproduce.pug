@@ -37,9 +37,9 @@ html(lang='en')
           label.form-label(for='branchName') Branch Name
           select#branchName.form-control( name='branch' value=produce.branch)
             option(selected='') Select Branch
-            option(value='Maganjo') Maganjo
-            option(value='Matuga') Matuga
-            option(value='Dealer') Dealer
+            option(value='maganjo') Maganjo
+            option(value='matuga') Matuga
+            option(value='dealer') Dealer
         
         .form-group.mb-3
           label.form-label(for='contact') Contact (Valid Phone Number)
@@ -48,11 +48,11 @@ html(lang='en')
         
         .form-group.mb-3
           label.form-label(for='priceToSell') Price to be Sold At
-          input#priceToSell.form-control(type='number' min='1' name='pricesold' value=pricesold)
+          input#priceToSell.form-control(type='number' min='1' name='pricesold' value=produce.pricesold)
         
         button.btn.btn-primary(type='submit') Submit
 
       
           
-    script(src='procurement.js')
+    script(src='/js/procurement.js')
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous')
