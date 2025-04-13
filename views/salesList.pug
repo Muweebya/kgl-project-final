@@ -31,6 +31,7 @@ table#salesTable.table.table-striped.table-hover.border.border-1
           td 
            a.btn.btn-primary.btn-block(href="/sales/updateSale/"+sale._id) Update
           td 
-            form(action="sales/deleteSale" method="post")
+            form(action="/sales/deleteSale" method="post")
               input(type="hidden" name="id" value=sale._id)
               button.btn.btn-danger.btn-block(type="submit") Delete
+    

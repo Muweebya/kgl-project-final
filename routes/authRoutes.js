@@ -82,7 +82,7 @@ router.get("/usersList", async (req, res) => {
 router.get("/updateUser/:id", async(req,res) => {
 try{
     const updateUser = await Registration.findOne({_id:req.params.id});
-    res.render("updateusers", {registration:updateUser});
+    res.render("updateusers", {user:updateUser});
 }catch(error){
     res.status(400).send("Unable to find user in the database")
 }
@@ -106,5 +106,13 @@ router.post("/updateUser", async(req,res) => {
       res.status(400).send("Unable to update user in the database")
     }
   })
-
+  router.post("/deleteUser", async(req, res) => {
+    try {
+      await Registration.deleteOne({_id: req.body.id});
+      res.redirect("back");
+    } catch(error) {
+      console.log("Delete error:", error);
+      res.status(400).send("Unable to delete user from the database");
+    }
+  });
 module.exports = router;

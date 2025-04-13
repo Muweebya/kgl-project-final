@@ -10,6 +10,7 @@ h1   Buyers on Credit
     .mb-3
       label.form-label(for='buyername') Buyer&apos;s Name
       input#buyername.form-control(type='text' name='buyername' )
+            
     .mb-3
       label.form-label(for='location') Location
       input#location.form-control(type='text' name='location' )
@@ -18,7 +19,7 @@ h1   Buyers on Credit
       input#nationalid.form-control(type='text' name='nationalid' )
     .mb-3
       label.form-label(for='contact') Contact (Valid Phone Number)
-      input#contact.form-control(type='tel' pattern= name='contact' )
+      input#contact.form-control(type='text' name='contact' )
       .form-text Enter a 10-digit valid phone number.
     .mb-3
       label.form-label(for='dateTime') Due Date
@@ -28,10 +29,22 @@ h1   Buyers on Credit
       input#dateofdispatch.form-control(type='datetime-local' name='dateofdispatch' )
     .mb-3
       label.form-label(for='produceName') Produce Name
-      input#produceName.form-control(type='text' name='producename' )
+      select#produceName.form-control( name='producename')
+            option(selected='') Select Produce
+            option(value='beans') Beans
+            option(value='grains') Grains
+            option(value='maize') Maize
+            option(value='cowpeas') Cow peas 
+            option(value='soybeans') Soy Beans 
+            option(value='gnuts') G-nuts
+            
     .mb-3
       label.form-label(for='typeofproduce') Type of Produce
-      input#typeofproduce.form-control(type='text' name='typeofproduce' )
+      select#typeofproduce.form-control( name='typeofproduce')
+            option(selected='') Select Type of Produce
+            option(value='legumes') Legumes
+            option(value='cereals') Cereals
+        
     .mb-3
       label.form-label(for='tonnage') Tonnage (in kgs)
       input#tonnage.form-control(type='number' min='1' name='tonnage' )

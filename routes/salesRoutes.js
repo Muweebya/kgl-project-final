@@ -66,7 +66,7 @@ router.post("/updateSale", async(req,res) => {
   })
   router.post("/deleteSale", async(req,res) => {
     try{
-        const deleteSale = await Sale.deleteOne({_id:req.body.id})
+     await Sale.deleteOne({_id:req.body.id})
         res.redirect("back")
     }catch(error){
         res.status(400).send("Unable to delete item in the database")

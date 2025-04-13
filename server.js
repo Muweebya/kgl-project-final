@@ -63,7 +63,7 @@ passport.serializeUser(registration.serializeUser());
 passport.deserializeUser(registration.deserializeUser());
 //routes/using imported routes
 app.use("/procurement", procurementRoutes)
-app.use("/", authRoutes)
+app.use("/register", authRoutes)
 app.use("/sales", salesRoutes)
 app.use("/", managerRoutes)
 app.use("/", salesAgentRoutes)

@@ -28,10 +28,21 @@ h1  Update Buyers on Credit
       input#dateofdispatch.form-control(type='datetime-local' name='dateofdispatch' value=creditor.dateofdispatch)
     .mb-3
       label.form-label(for='produceName') Produce Name
-      input#produceName.form-control(type='text' name='producename' value=creditor.producename)
+       select#produceName.form-control( name='producename' value=creditor.producename)
+            option(selected='') Select Produce
+            option(value='beans') Beans
+            option(value='grains') Grains
+            option(value='maize') Maize
+            option(value='cowpeas') Cow peas 
+            option(value='soybeans') Soy Beans 
+            option(value='gnuts') G-nuts
     .mb-3
       label.form-label(for='typeofproduce') Type of Produce
-      input#typeofproduce.form-control(type='text' name='typeofproduce' value=creditor.typeofproduce)
+      select#typeofproduce.form-control(type='text' name='typeofproduce' value=creditor.typeofproduce)
+      option(selected='') Select Type of Produce
+            option(value='legumes') Legumes
+            option(value='cereals') Cereals
+        
     .mb-3
       label.form-label(for='tonnage') Tonnage (in kgs)
       input#tonnage.form-control(type='number' min='1' name='tonnage' value=creditor.tonnage)

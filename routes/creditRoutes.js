@@ -64,4 +64,13 @@ router.post("/updateCreditor", async(req,res) => {
     }
   })
 
+  router.post("/deleteCreditor", async(req,res) => {
+    try{
+     await Credit.deleteOne({_id:req.body.id})
+        res.redirect("back")
+    }catch(error){
+        res.status(400).send("Unable to delete creditor in the database")
+    }
+  })
+
 module.exports = router;
