@@ -6,51 +6,61 @@ head
   link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous')
 h1  Update Buyers on Credit
 .container
-  form#credit-form(action='/credit/updateCreditor?id='+creditor._id method='post' onsubmit='return formValidate()')
+  form#credit-form(action='/credit/updateCreditor?id='+creditor._id method='post')
     .mb-3
       label.form-label(for='buyername') Buyer&apos;s Name
       input#buyername.form-control(type='text' name='buyername' value=creditor.buyername)
+      .text-danger.small#buyerError
     .mb-3
       label.form-label(for='location') Location
       input#location.form-control(type='text' name='location' value=creditor.location)
+      .text-danger.small#locationError
     .mb-3
-      label.form-label(for='produceType') National ID
+      label.form-label(for='nationalid') National ID
       input#nationalid.form-control(type='text' name='nationalid' value=creditor.nationalid)
+      .text-danger.small#ninError
     .mb-3
       label.form-label(for='contact') Contact (Valid Phone Number)
       input#contact.form-control(type='tel' pattern='[0-9]{10}' name='contact' value=creditor.contact)
       .form-text Enter a 10-digit valid phone number.
+      .text-danger.small#contactError
     .mb-3
-      label.form-label(for='dateTime') Due Date
+      label.form-label(for='duedate') Due Date
       input#duedate.form-control(type='datetime-local' name='duedate' value=creditor.duedate)
+      .text-danger.small#dueDateError
     .mb-3
-      label.form-label(for='dateTime') Date of dispatch
+      label.form-label(for='dateofdispatch') Date of dispatch
       input#dateofdispatch.form-control(type='datetime-local' name='dateofdispatch' value=creditor.dateofdispatch)
+      .text-danger.small#dispatchDateError
     .mb-3
       label.form-label(for='produceName') Produce Name
-       select#produceName.form-control( name='producename' value=creditor.producename)
-            option(selected='') Select Produce
-            option(value='beans') Beans
-            option(value='grains') Grains
-            option(value='maize') Maize
-            option(value='cowpeas') Cow peas 
-            option(value='soybeans') Soy Beans 
-            option(value='gnuts') G-nuts
+      select#produceName.form-control(name='producename')
+        option(value='' selected= !creditor.producename) Select Produce
+        option(value='beans' selected= creditor.producename === 'beans') Beans
+        option(value='grains' selected= creditor.producename === 'grains') Grains
+        option(value='maize' selected= creditor.producename === 'maize') Maize
+        option(value='cowpeas' selected= creditor.producename === 'cowpeas') Cow peas 
+        option(value='soybeans' selected= creditor.producename === 'soybeans') Soy Beans 
+        option(value='gnuts' selected= creditor.producename === 'gnuts') G-nuts
+      .text-danger.small#produceError
     .mb-3
       label.form-label(for='typeofproduce') Type of Produce
-      select#typeofproduce.form-control(type='text' name='typeofproduce' value=creditor.typeofproduce)
-      option(selected='') Select Type of Produce
-            option(value='legumes') Legumes
-            option(value='cereals') Cereals
-        
+      select#typeofproduce.form-control(name='typeofproduce')
+        option(value='' selected= !creditor.typeofproduce) Select Type of Produce
+        option(value='legumes' selected= creditor.typeofproduce === 'legumes') Legumes
+        option(value='cereals' selected= creditor.typeofproduce === 'cereals') Cereals
+      .text-danger.small#typeError
     .mb-3
       label.form-label(for='tonnage') Tonnage (in kgs)
       input#tonnage.form-control(type='number' min='1' name='tonnage' value=creditor.tonnage)
+      .text-danger.small#tonnageError
     .mb-3
       label.form-label(for='amountdue') Amount due (in UgX)
       input#amountdue.form-control(type='number' min='1' name='amountdue' value=creditor.amountdue)
+      .text-danger.small#amountError
     .mb-3
       label.form-label(for='salesAgentName') Sales Agent&apos;s Name
       input#salesAgentName.form-control(type='text' name='salesagentname' value=creditor.salesagentname)
+      .text-danger.small#agentError
     button.btn.btn-primary(type='submit') Submit
   script(src='/js/credit.js')

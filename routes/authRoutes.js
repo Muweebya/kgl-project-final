@@ -40,18 +40,32 @@ router.get("/login", (req, res) => {
 
 router.post("/login", passport.authenticate("local", { failureRedirect: "/login" }), (req, res) => {
     console.log(req.body);
-    req.session.user = req.user;
+    const role = req.user.role;
+    const branch = req.user.branch; // e.g., "Matugga" or "Maganjo"
     
-    if (req.user.role === "manager") {
-        res.redirect("/managerDash");
-    } else if (req.user.role === "salesagent") {
-        res.redirect("/salesagentDash");
-    } else if (req.user.role === "director") {
-        res.redirect("/directorDash");
+    if (role === "manager") {
+        if (branch === "matugga") {
+            res.redirect("/managerDash/matugga");
+        } else if (branch === "magnjo") {
+            res.redirect("/managerDash/maganjo");
+        } else {
+            res.send("Branch not recognized.");
+        }
+    } else if (role === "salesagent") {
+        if (branch === "matugga") {
+            res.redirect("/salesagentDash/matugga");
+        } else if (branch === "maganjo") {
+            res.redirect("/salesagentDash/maganjo");
+        } else {
+            res.send("Branch not recognized.");
+        }
+    } else if (role === "director") {
+        res.redirect("/directorDash"); // Directors can see everything
     } else {
-        res.send("You don't have any role in the system");
+        res.send("You don't have any role in the system.");
     }
-});
+})
+    
 
 router.get("/logout", (req, res) => {
     if (req.session) {

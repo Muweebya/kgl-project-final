@@ -9,25 +9,52 @@ h1 Sales
   form#sales-form(action='/sales/addSale' method='post')
     .mb-3
       label.form-label(for='produceName') Produce Name
-      input#produceName.form-control(type='text'  name='producename')
+      select#produceName.form-control( name='producename')
+        option(selected='') Select Produce
+            option(value='beans') Beans
+            option(value='grains') Grains
+            option(value='maize') Maize
+            option(value='cowpeas') Cow peas 
+            option(value='soybeans') Soy Beans 
+            option(value='gnuts') G-nuts
+            
+      span#nameError.error.text-danger
+      
     .mb-3
-      label.form-label(for='produceType') Buyer&apos;s Name
-      input.form-control(type='text' id="buyer'sName"  name='buyersname')
+      label.form-label(for='buyersName') Buyer&apos;s Name
+      input#buyersName.form-control(type='text' name='buyersname')
+      span#buyerError.error.text-danger
+      
     .mb-3
       label.form-label(for='dateTime') Date &amp; Time
-      input#dateTime.form-control(type='datetime-local'  name='dateandtime')
+      input#dateTime.form-control(type='datetime-local' name='dateandtime')
+      span#dateError.error.text-danger
+      
     .mb-3
       label.form-label(for='tonnage') Tonnage (in kgs)
-      input#tonnage.form-control(type='number' min='1'  name='tonnage')
+      input#tonnage.form-control(type='number' min='1' name='tonnage')
+      span#tonnageError.error.text-danger
+      
     .mb-3
       label.form-label(for='cost') Amount Paid (in UgX)
-      input#cost.form-control(type='number' min='1'  name='amountpaid')
+      input#cost.form-control(type='number' min='1' name='amountpaid')
+      span#amountError.error.text-danger
+      
     .mb-3
-      label.form-label(for='dealerName') Sales Agent&apos;s Name
-      input#salesAgentName.form-control(type='text'  name='salesagent')
+      label.form-label(for='salesAgentName') Sales Agent&apos;s Name
+      input#salesAgentName.form-control(type='text' name='salesagent')
+      span#agentError.error.text-danger
+      
     .mb-3
       label.form-label(for='paymentMethod') Payment Method
-      input#paymentMethod.form-control(type='text'  name='paymentmethod')
+      select#paymentMethod.form-control(type='text' name='paymentmethod')
+        option(selected='') Select Payment Method
+            option(value='mobilemoney') Mobile Money
+            option(value='cash') Cash
+            option(value='banktransfer') Bank Transfer
+
+      span#paymentError.error.text-danger
+      
     button.btn.btn-primary(type='submit') Submit
  
 script(src='/js/sales.js')

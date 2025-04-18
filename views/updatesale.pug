@@ -6,28 +6,50 @@ head
   link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet')
 h1 Update Sale
 .container
-form#sales-form(action='/sales/updateSale?id='+sale._id method='post' onsubmit='return formValidate()')
+  form#sales-form(action='/sales/updateSale?id='+sale._id method='post')
     .mb-3
       label.form-label(for='produceName') Produce Name
-      input#produceName.form-control(  name='producename' value=sale.producename)
+      select#produceName.form-control(type='text' name='producename' value=sale.producename)
+        option(selected='') Select Produce
+            option(value='beans') Beans
+            option(value='grains') Grains
+            option(value='maize') Maize
+            option(value='cowpeas') Cow peas 
+            option(value='soybeans') Soy Beans 
+            option(value='gnuts') G-nuts
+            
+      span#nameError.error.text-danger
+      
     .mb-3
-      label.form-label(for='produceType') Buyer&apos;s Name
-      input.form-control(type='text' id="buyer'sName"  name='buyersname' value=sale.buyersname)
+      label.form-label(for='buyersName') Buyer&apos;s Name
+      input#buyersName.form-control(type='text' name='buyersname' value=sale.buyersname)
+      span#buyerError.error.text-danger
+      
     .mb-3
       label.form-label(for='dateTime') Date &amp; Time
-      input#dateTime.form-control(type='datetime-local'  name='dateandtime' value=sale.dateandtime)
+      input#dateTime.form-control(type='datetime-local' name='dateandtime' value=sale.dateandtime)
+      span#dateError.error.text-danger
+      
     .mb-3
       label.form-label(for='tonnage') Tonnage (in kgs)
-      input#tonnage.form-control(type='number' min='1'  name='tonnage' value=sale.tonnage)
+      input#tonnage.form-control(type='number' min='1' name='tonnage' value=sale.tonnage)
+      span#tonnageError.error.text-danger
+      
     .mb-3
       label.form-label(for='cost') Amount Paid (in UgX)
-      input#cost.form-control(type='number' min='1'  name='amountpaid' value=sale.amountpaid)
+      input#cost.form-control(type='number' min='1' name='amountpaid' value=sale.amountpaid)
+      span#amountError.error.text-danger
+      
     .mb-3
-      label.form-label(for='dealerName') Sales Agent&apos;s Name
-      input#salesAgentName.form-control(type='text'  name='salesagent' value=sale.salesagent)
+      label.form-label(for='salesAgentName') Sales Agent&apos;s Name
+      input#salesAgentName.form-control(type='text' name='salesagent' value=sale.salesagent)
+      span#agentError.error.text-danger
+      
     .mb-3
       label.form-label(for='paymentMethod') Payment Method
-      input#paymentMethod.form-control(type='text'  name='paymentmethod' value=sale.paymentmethod)
+      input#paymentMethod.form-control(type='text' name='paymentmethod' value=sale.paymentmethod)
+      span#paymentError.error.text-danger
+      
     button.btn.btn-primary(type='submit') Submit
  
 script(src='/js/sales.js')

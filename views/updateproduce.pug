@@ -11,12 +11,21 @@ html(lang='en')
       form#procurementForm(action='/procurement/updateProduct?id='+produce._id method='post' onsubmit='return formValidate()')
         .form-group.mb-3
           label.form-label(for='produceName') Produce Name
-          input#produceName.form-control(type='text'  name='producename' value=produce.producename)
-        
+          select#produceName.form-control( name='producename' value=produce.producename)
+            option(selected='') Select Produce
+            option(value='beans') Beans
+            option(value='grains') Grains
+            option(value='maize') Maize
+            option(value='cowpeas') Cow peas 
+            option(value='soybeans') Soy Beans 
+            option(value='gnuts') G-nuts
+            
         .form-group.mb-3
           label.form-label(for='produceType') Type of Produce
-          input#produceType.form-control(type='text'  name='typeofproduce' value=produce.typeofproduce)
-        
+          select#produceType.form-control(type='text'  name='typeofproduce' value=produce.typeofproduce)
+            option(selected='') Select Type of Produce
+            option(value='legumes') Legumes
+            option(value='cereals') Cereals
         .form-group.mb-3
           label.form-label(for='dateTime') Date &amp; Time
           input#dateTime.form-control(type='datetime-local'  name='dateandtime' value=produce.dateandtime)
@@ -43,7 +52,7 @@ html(lang='en')
         
         .form-group.mb-3
           label.form-label(for='contact') Contact (Valid Phone Number)
-          input#contact.form-control(type='tel' pattern='[0-9]{10}' name='contact' value=produce.contact)
+          input#contact.form-control(type='text'  name='contact' value=produce.contact)
           small.form-text.text-muted Enter a 10-digit valid phone number.
         
         .form-group.mb-3

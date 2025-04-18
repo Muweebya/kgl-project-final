@@ -73,4 +73,18 @@ router.post("/updateCreditor", async(req,res) => {
     }
   })
 
+  router.get("/creditorsList", isAuthenticated, async (req, res) => {
+    try {
+        const branch = req.user.branch; // e.g., "Matugga"
+
+        // Only show data from the user's branch
+        const creditlist = await Credit.find({ branch });
+
+        res.render("creditorsList", { creditlist, branch });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to load creditors");
+    }
+});
+
 module.exports = router;

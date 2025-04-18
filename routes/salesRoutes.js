@@ -72,5 +72,19 @@ router.post("/updateSale", async(req,res) => {
         res.status(400).send("Unable to delete item in the database")
     }
   })
+  router.get("/salesList", isAuthenticated, async (req, res) => {
+    try {
+        const branch = req.user.branch; // e.g., "Matugga"
+
+        // Only show data from the user's branch
+        const saleslist = await Sale.find({ branch });
+
+        res.render("salesList", { saleslist, branch });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to load sales");
+    }
+});
+
 
 module.exports = router;

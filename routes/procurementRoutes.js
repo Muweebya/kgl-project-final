@@ -63,6 +63,29 @@ router.post("/updateProduct", async(req,res) => {
       res.status(400).send("Unable to update item in the database")
     }
   })
+  router.post("/deleteProduce", async(req,res) => {
+      try{
+       await Produce.deleteOne({_id:req.body.id})
+          res.redirect("back")
+      }catch(error){
+          res.status(400).send("Unable to delete produce in the database")
+      }
+    })
+
+
+  router.get("/procuredProduceList", isAuthenticated, async (req, res) => {
+    try {
+        const branch = req.user.branch; // e.g., "Matugga"
+
+        // Only show data from the user's branch
+        const producelist = await Produce.find({ branch });
+
+        res.render("procuredProduceList", { producelist, branch });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to load produce");
+    }
+});
 
 
 
