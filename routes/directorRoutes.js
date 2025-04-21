@@ -1,7 +1,12 @@
 const express = require("express");
+const isAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect('/register/login'); // Redirect to login page if not authenticated
+  };
 
 const router = express.Router();
-
 
 router.get("/directorDash", isAuthenticated, (req, res) => {
     getAllData()

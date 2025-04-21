@@ -1,22 +1,7 @@
-let loginForm = document.getElementById("login-form")
-loginForm.addEventListener("submit", function(event){
-    event.preventDefault()
-  
+document.addEventListener("DOMContentLoaded", function () {
+    const loginForm = document.getElementById("login-form");
     
-    const userData = {
-      email: document.getElementById("email").value,
-      password: document.getElementById("password").value,
-      
-
-  
-    }
-  
-      console.log("information submitted")
-      
-  });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("login-form").addEventListener("submit", function (event) {
+    loginForm.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent form submission if validation fails
 
         let isValid = true;
@@ -31,22 +16,29 @@ loginForm.addEventListener("submit", function(event){
 
         clearErrors();
 
-        let email = document.getElementById("email").value.trim();
+        // Get form data
+        const userData = {
+            email: document.getElementById("email").value.trim(),
+            password: document.getElementById("password").value.trim()
+        };
+
+        // Validate email
         let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        if (!emailRegex.test(userData.email)) {
             showError("emailError", "Enter a valid email address.");
             isValid = false;
         }
 
-        let password = document.getElementById("password").value.trim();
-        if (password.length < 6) {
+        // Validate password
+        if (userData.password.length < 6) {
             showError("passwordError", "Password must be at least 6 characters long.");
             isValid = false;
         }
 
         if (isValid) {
-            alert("Login form submitted successfully!");
-            this.submit(); // Submit the form if all validations pass
+            console.log("Information submitted");
+            // Submit the form
+            loginForm.submit();
         }
     });
 });

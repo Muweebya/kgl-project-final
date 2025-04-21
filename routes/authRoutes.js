@@ -4,6 +4,14 @@ const passport = require("passport");
 // Import the Registration model with consistent capitalization
 const Registration = require("../models/Registration");
 
+// Define authentication middleware
+const isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/register/login'); // Redirect to login page if not authenticated
+};
+
 router.get("/register", (req, res) => {
     res.render("registration");
 });
@@ -16,21 +24,29 @@ router.post("/register", async (req, res) => {
         });
         
         if (existingUser) {
-            return res.status(400).send("Not registered, email already exists");
-        } else {
-            
-            Registration.register(user, req.body.password)
-                .then(() => {
-                    res.redirect("/login");
-                })
-                .catch(error => {
-                    console.log(error);
-                    res.status(400).render("registration");
-                });
+            return res.status(400).render("registration", {
+                error: "Email already exists",
+                formData: req.body
+            });
         }
+        
+        Registration.register(user, req.body.password)
+            .then(() => {
+                res.redirect("/register/login");
+            })
+            .catch(error => {
+                console.error("Registration error:", error);
+                res.status(400).render("registration", {
+                    error: "Registration failed",
+                    formData: req.body
+                });
+            });
     } catch (error) {
-        console.log(error);
-        res.status(400).render("registration");
+        console.error("Registration error:", error);
+        res.status(400).render("registration", {
+            error: "Registration failed",
+            formData: req.body
+        });
     }
 });
 
@@ -38,18 +54,18 @@ router.get("/login", (req, res) => {
     res.render("login");
 });
 
-router.post("/login", passport.authenticate("local", { failureRedirect: "/login" }), (req, res) => {
-    console.log(req.body);
+router.post("/login", passport.authenticate("local", { failureRedirect: "/register/login" }), (req, res) => {
+    console.log("User logged in:", req.user.username);
     const role = req.user.role;
     const branch = req.user.branch; // e.g., "Matugga" or "Maganjo"
     
     if (role === "manager") {
         if (branch === "matugga") {
             res.redirect("/managerDash/matugga");
-        } else if (branch === "magnjo") {
+        } else if (branch === "maganjo") {
             res.redirect("/managerDash/maganjo");
         } else {
-            res.send("Branch not recognized.");
+            res.render("error", { message: "Branch not recognized." });
         }
     } else if (role === "salesagent") {
         if (branch === "matugga") {
@@ -57,22 +73,21 @@ router.post("/login", passport.authenticate("local", { failureRedirect: "/login"
         } else if (branch === "maganjo") {
             res.redirect("/salesagentDash/maganjo");
         } else {
-            res.send("Branch not recognized.");
+            res.render("error", { message: "Branch not recognized." });
         }
     } else if (role === "director") {
         res.redirect("/directorDash"); // Directors can see everything
     } else {
-        res.send("You don't have any role in the system.");
+        res.render("error", { message: "You don't have any role in the system." });
     }
-})
+});
     
-
 router.get("/logout", (req, res) => {
     if (req.session) {
-        // Fixed the typo: destory -> destroy
         req.session.destroy((error) => {
             if (error) {
-                return res.status(500).send("Error logging out");
+                console.error("Logout error:", error);
+                return res.status(500).render("error", { message: "Error logging out" });
             }
             res.redirect("/");
         });
@@ -81,52 +96,68 @@ router.get("/logout", (req, res) => {
     }
 });
 
-router.get("/usersList", async (req, res) => {
+router.get("/usersList", isAuthenticated, async (req, res) => {
     try {
-        
         const users = await Registration.find().sort({$natural: -1});
         res.render("usersList", {
             users: users
         });
     } catch (error) {
-        console.log(error);
-        res.status(400).send("Unable to find users in the database");
+        console.error("Error fetching users:", error);
+        res.status(400).render("error", { message: "Unable to find users in the database" });
     }
 });
-router.get("/updateUser/:id", async(req,res) => {
-try{
-    const updateUser = await Registration.findOne({_id:req.params.id});
-    res.render("updateusers", {user:updateUser});
-}catch(error){
-    res.status(400).send("Unable to find user in the database")
-}
-})
-router.post("/updateUser", async(req,res) => {
-    try{
-      // Use your existing variable name
-      const updateUser = await Registration.findOneAndUpdate(
-        {_id: req.query.id},
-        req.body,
-        {new: true}
-      );
-      
-      // Add logging to check if update is successful
-      console.log("Updated user:", updateUser);
-      
-      // Use absolute path for redirect
-      res.redirect("/register/usersList");
-    }catch(error){
-      console.log("Update error:", error);
-      res.status(400).send("Unable to update user in the database")
-    }
-  })
-  router.post("/deleteUser", async(req, res) => {
+
+router.get("/updateUser/:id", isAuthenticated, async (req, res) => {
     try {
-      await Registration.deleteOne({_id: req.body.id});
-      res.redirect("back");
-    } catch(error) {
-      console.log("Delete error:", error);
-      res.status(400).send("Unable to delete user from the database");
+        const updateUser = await Registration.findOne({_id: req.params.id});
+        if (!updateUser) {
+            return res.status(404).render("error", { message: "User not found" });
+        }
+        res.render("updateusers", {user: updateUser});
+    } catch (error) {
+        console.error("Error finding user:", error);
+        res.status(400).render("error", { message: "Unable to find user in the database" });
     }
-  });
+});
+
+router.post("/updateUser", isAuthenticated, async (req, res) => {
+    try {
+        console.log("Update user request received for ID:", req.query.id);
+        
+        const updateUser = await Registration.findOneAndUpdate(
+            {_id: req.query.id},
+            req.body,
+            {new: true}
+        );
+        
+        if (!updateUser) {
+            return res.status(404).render("error", { message: "User not found for update" });
+        }
+        
+        console.log("Updated user:", updateUser);
+        res.redirect("/register/usersList");
+    } catch (error) {
+        console.error("Update error:", error);
+        res.status(400).render("error", { message: "Unable to update user in the database" });
+    }
+});
+
+router.post("/deleteUser", isAuthenticated, async (req, res) => {
+    try {
+        const result = await Registration.deleteOne({_id: req.body.id});
+        
+        if (result.deletedCount === 0) {
+            console.log("No user found to delete");
+        } else {
+            console.log("User deleted successfully");
+        }
+        
+        res.redirect("back");
+    } catch (error) {
+        console.error("Delete error:", error);
+        res.status(400).render("error", { message: "Unable to delete user from the database" });
+    }
+});
+
 module.exports = router;
