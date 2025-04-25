@@ -9,7 +9,7 @@ const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect('/register/login'); // Redirect to login page if not authenticated
+  res.redirect('/login'); // Redirect to login page if not authenticated
 };
 
 router.get("/register", (req, res) => {

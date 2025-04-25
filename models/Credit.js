@@ -66,6 +66,11 @@ const creditSchema = new mongoose.Schema({
         type:String,
         trim:true,
         required:true,
+    },
+    branch:{
+        type:String,
+        trim:true,
+        required:true,
     }
 
 

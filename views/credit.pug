@@ -72,6 +72,14 @@ h1 Buyers on Credit
       label.form-label(for='salesAgentName') Sales Agent&apos;s Name
       input#salesAgentName.form-control(type='text' name='salesagentname')
       span#agentError.error.text-danger
+
+    .mb-3
+      label.form-label(for='branch') Branch
+      select#branch.form-control(name='branch')
+            option(selected='') Select Branch
+            option(value='maganjo') Maganjo
+            option(value='matugga') Matugga
+      span#branchError.error.text-danger
       
     button.btn.btn-primary(type='submit') Submit
   script(src='/js/credit.js')

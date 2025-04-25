@@ -54,6 +54,16 @@ h1 Sales
             option(value='banktransfer') Bank Transfer
 
       span#paymentError.error.text-danger
+
+    .mb-3
+      label.form-label(for='branch') Branch
+      select#branch.form-control(type='text' name='branch')
+        option(selected='') Branch
+            option(value='maganjo') Maganjo
+            option(value='matugga') Matugga
+           
+
+      span#branchError.error.text-danger
       
     button.btn.btn-primary(type='submit') Submit
  

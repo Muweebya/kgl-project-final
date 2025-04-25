@@ -62,5 +62,12 @@ h1  Update Buyers on Credit
       label.form-label(for='salesAgentName') Sales Agent&apos;s Name
       input#salesAgentName.form-control(type='text' name='salesagentname' value=creditor.salesagentname)
       .text-danger.small#agentError
+    .mb-3
+      label.form-label(for='branch') Branch
+      select#branch.form-control(name='branch')
+        option(value='' selected= !creditor.branch) Select Branch
+        option(value='maganjo' selected= creditor.branch === 'maganjo') Maganjo
+        option(value='matugga' selected= creditor.matugga === 'cereals') Matugga
+      .text-danger.small#typeError
     button.btn.btn-primary(type='submit') Submit
   script(src='/js/credit.js')

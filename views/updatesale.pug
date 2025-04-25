@@ -49,6 +49,11 @@ h1 Update Sale
       label.form-label(for='paymentMethod') Payment Method
       input#paymentMethod.form-control(type='text' name='paymentmethod' value=sale.paymentmethod)
       span#paymentError.error.text-danger
+
+    .mb-3
+      label.form-label(for='branch') Branch
+      input#branch.form-control(type='text' name='branch' value=sale.branch)
+      span#branchError.error.text-danger
       
     button.btn.btn-primary(type='submit') Submit
  

@@ -23,6 +23,7 @@ html
             th(scope='col') Tonnage(kgs)
             th(scope='col') Amount due(Ugx)
             th(scope='col') Sales Agent's Name
+            th(scope='col') Branch
             th(scope='col') Actions
             th(scope='col')
         tbody
@@ -40,6 +41,7 @@ html
                 td #{creditor.tonnage}
                 td #{creditor.amountdue}
                 td #{creditor.salesagentname}
+                td #{creditor.branch}
                 td 
                   a.btn.btn-primary.btn-sm(href="/credit/updateCreditor/"+creditor._id) Update
                 td 

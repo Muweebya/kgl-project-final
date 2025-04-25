@@ -62,6 +62,12 @@ document.addEventListener("DOMContentLoaded", function () {
             isValid = false;
         }
 
+        let branch = document.getElementById("branch").value.trim();
+        if (!branch) {
+            showError("branchError", "Branch is required.");
+            isValid = false;
+        }
+
         if (isValid) {
             console.log("Sale update submitted successfully!");
             // Remove the event listener to prevent infinite loops

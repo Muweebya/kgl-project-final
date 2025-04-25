@@ -86,6 +86,12 @@ document.addEventListener("DOMContentLoaded", function () {
             isValid = false;
         }
 
+        let branch = document.getElementById("branch").value;
+        if (branch === "" || branch === "Select Branch") {
+            showError("branchError", "Select Branch.");
+            isValid = false;
+        }
+
         if (isValid) {
             // Submit the form if all validations pass
             creditForm.submit();

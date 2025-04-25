@@ -5,7 +5,7 @@ registrationForm.addEventListener("submit", function (event) {
 
     const userData = {
         name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
+        email: document.getElementById("emailaddress").value,
         role: document.getElementById("password").value,
         password: document.getElementById("password").value,
         passwordRepeat: document.getElementById("passwordrepeat").value,
