@@ -32,7 +32,7 @@ router.post("/register", async (req, res) => {
         
         Registration.register(user, req.body.password)
             .then(() => {
-                res.redirect("/register/login");
+                res.redirect("/login");
             })
             .catch(error => {
                 console.error("Registration error:", error);

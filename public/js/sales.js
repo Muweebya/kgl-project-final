@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         let cost = document.getElementById("cost").value.trim();
-        if (!/^[0-9]{5,}$/.test(cost)) {
-            showError("amountError", "Amount paid must be numeric and at least 5 digits.");
+        if (!/^[0-9]{4,}$/.test(cost)) {
+            showError("amountError", "Amount paid must be numeric and at least 4 digits.");
             isValid = false;
         }
 

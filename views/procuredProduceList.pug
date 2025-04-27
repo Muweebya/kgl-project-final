@@ -22,11 +22,11 @@ html
             th(scope='col') Type of Produce
             th(scope='col') Date & Time
             th(scope='col') Tonnage (kgs)
-            th(scope='col') Cost (UgX)
+           
             th(scope='col') Dealer Name
             th(scope='col') Branch Name
             th(scope='col') Contact
-            th(scope='col') Price Sold At
+            th(scope='col') Unit Price
             th(scope='col') Actions
 
         tbody
@@ -37,11 +37,11 @@ html
                 td #{produce.typeofproduce}
                 td #{moment(produce.dateandtime).format('DD-MM-YYYY')}
                 td #{produce.tonnage}
-                td #{produce.cost}
+                
                 td #{produce.dealername}
                 td #{produce.branch}
                 td #{produce.contact}
-                td #{produce.pricesold}
+                td #{produce.unitprice}
                 td
                   a.btn.btn-sm.btn-primary(href="/procurement/updateProduct/" + produce._id) Update
                   form(action="/procurement/deleteProduce", method="post", style="display:inline")

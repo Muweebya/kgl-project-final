@@ -10,15 +10,9 @@ h1 Sales
     .mb-3
       label.form-label(for='produceName') Produce Name
       select#produceName.form-control( name='producename')
-        option(selected='') Select Produce
-            option(value='beans') Beans
-            option(value='grains') Grains
-            option(value='maize') Maize
-            option(value='cowpeas') Cow peas 
-            option(value='soybeans') Soy Beans 
-            option(value='gnuts') G-nuts
-            
+        option(value=produce._id) #{produce.producename} 
       span#nameError.error.text-danger
+            
       
     .mb-3
       label.form-label(for='buyersName') Buyer&apos;s Name
@@ -42,7 +36,9 @@ h1 Sales
       
     .mb-3
       label.form-label(for='salesAgentName') Sales Agent&apos;s Name
-      input#salesAgentName.form-control(type='text' name='salesagent')
+      select#salesAgentName.form-control(name="salesagent")
+        if currentUser
+          option(value = user._id) #{user.name}
       span#agentError.error.text-danger
       
     .mb-3

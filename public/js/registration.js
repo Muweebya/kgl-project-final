@@ -1,32 +1,18 @@
-let registrationForm = document.getElementById("registration-form")
-registrationForm.addEventListener("submit", function (event) {
-    event.preventDefault()
-
-
-    const userData = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("emailaddress").value,
-        role: document.getElementById("password").value,
-        password: document.getElementById("password").value,
-        passwordRepeat: document.getElementById("passwordrepeat").value,
-        
-
-
-
-    }
-
-    console.log("information submitted")
-
-});
-
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("registration-form").addEventListener("submit", function (event) {
+    const registrationForm = document.getElementById("registration-form");
+    
+    registrationForm.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent form submission if validation fails
 
         let isValid = true;
         
         function showError(id, message) {
-            document.getElementById(id).innerText = message;
+            const errorElement = document.getElementById(id);
+            if (errorElement) {
+                errorElement.innerText = message;
+            } else {
+                console.error(`Error element with id ${id} not found`);
+            }
         }
 
         function clearErrors() {
@@ -35,34 +21,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
         clearErrors();
 
-        let name = document.getElementById("name").value.trim();
+        // Get form values
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("emailaddress").value.trim();
+        const role = document.getElementById("role").value.trim();
+        const branch = document.getElementById("branch").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const passwordRepeat = document.getElementById("passwordrepeat").value.trim();
+
+        // Validate name
         if (!/^[A-Za-z ]{2,}$/.test(name)) {
-            showError("nameError", "Name must contain only letters and be at least 2 characters long.");
+            showError("name-error", "Name must contain only letters and be at least 2 characters long.");
             isValid = false;
         }
 
-        let email = document.getElementById("email").value.trim();
-        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            showError("emailError", "Enter a valid email address.");
+            showError("email-error", "Enter a valid email address.");
             isValid = false;
         }
 
-        let password = document.getElementById("password").value.trim();
+        // Validate password
         if (password.length < 6) {
-            showError("passwordError", "Password must be at least 6 characters long.");
+            showError("password-error", "Password must be at least 6 characters long.");
             isValid = false;
         }
 
-        let passwordRepeat = document.getElementById("passwordrepeat").value.trim();
+        // Validate password confirmation
         if (passwordRepeat !== password) {
-            showError("passwordRepeatError", "Passwords do not match.");
+            showError("password-repeat-error", "Passwords do not match.");
             isValid = false;
         }
 
         if (isValid) {
-            alert("Registration form submitted successfully!");
-            this.submit(); // Submit the form if all validations pass
+            // Instead of just logging data, actually submit the form
+            registrationForm.submit();
+            // Don't need the alert here as it will redirect
         }
+            
+            
+            
+            // In a real application, you would submit the form here
+            // registrationForm.submit();
+            
+            
+        
     });
 });

@@ -15,11 +15,11 @@ procurementForm.addEventListener("submit", function(event){
     produceType: document.getElementById("produceType").value,
     dateTime: document.getElementById("dateTime").value,
     tonnage: document.getElementById("tonnage").value,
-    cost: document.getElementById("cost").value,
+    
     dealerName: document.getElementById("dealerName").value,
     branchName: document.getElementById("branchName").value,
     contact: document.getElementById("contact").value,
-    priceToSell: document.getElementById("priceToSell").value
+    unitPrice: document.getElementById("unitPrice").value
 
   }
 
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       let produceType = document.getElementById("produceType").value.trim();
-      if (!/^[A-Za-z]{2,}$/.test(type)) {
+      if (!/^[A-Za-z]{2,}$/.test(produceType)) {
           showError("typeError", "Type must contain only alphabets and be at least 2 characters.");
           isValid = false;
       }
@@ -69,11 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
           isValid = false;
       }
 
-      let cost = document.getElementById("cost").value.trim();
-      if (!/^[0-9]{5,}$/.test(cost)) {
-          showError("costError", "Cost must be numeric and at least 5 digits.");
-          isValid = false;
-      }
+      
 
       let dealerName = document.getElementById("dealerName").value.trim();
       if (!/^[A-Za-z0-9]{2,}$/.test(dealerName)) {
@@ -87,9 +83,9 @@ document.addEventListener("DOMContentLoaded", function () {
           isValid = false;
       }
 
-      let priceToSell = document.getElementById("priceToSell").value.trim();
-      if (!priceToSell || isNaN(priceToSell)) {
-          showError("priceError", "Enter a valid selling price.");
+      let unitPrice = document.getElementById("unitPrice").value.trim();
+      if (!unitPrice || isNaN(unitPrice)) {
+          showError("priceError", "Enter a valid unit price.");
           isValid = false;
       }
 

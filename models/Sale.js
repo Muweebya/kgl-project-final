@@ -3,9 +3,8 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 const salesSchema = new mongoose.Schema({
     producename:{
-        type:String,
-        trim:true,
-        required:true,
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"produce",
         
     },
 
@@ -36,9 +35,8 @@ const salesSchema = new mongoose.Schema({
 
     },
     salesagent:{
-        type:String,
-        trim:true,
-        required:true,
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"registration",
         
 
     },

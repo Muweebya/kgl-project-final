@@ -30,7 +30,7 @@ html
                 td #{user.branch}
                 td #{user.emailaddress}
                 td
-                  a.btn.btn-primary.btn-sm.me-2(href="/register/updateUser/" + user._id) Update
+                  a.btn.btn-primary.btn-sm.me-2(href="/updateUser/" + user._id) Update
                   form(action="/register/deleteUser", method="post", style="display:inline")
                     input(type="hidden", name="id", value=user._id)
                     button.btn.btn-danger.btn-sm(type="submit") Delete

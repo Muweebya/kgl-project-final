@@ -28,13 +28,7 @@ const procurementSchema = new mongoose.Schema({
         
 
     },
-    cost:{
-        type:Number,
-        trim:true,
-        required:true,
-        
-
-    },
+    
     dealername:{
         type:String,
         trim:true,
@@ -52,7 +46,7 @@ const procurementSchema = new mongoose.Schema({
         trim:true,
         required:true,
     },
-    pricesold:{
+    unitprice:{
         type:Number,
         trim:true,
         required:true,

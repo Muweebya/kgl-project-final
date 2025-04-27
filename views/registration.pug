@@ -3,42 +3,47 @@ head
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
   link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous')
-  link(href='registration.css' rel='stylesheet')
-  title Registration Page
+  // Changed from registration.css to /css/registration.css to match standard folder structure
+  link(href='/css/registration.css' rel='stylesheet')
+  title KGL Registration Page
 body
   .container.mt-4
     .row.justify-content-center
       .col-md-7.text-center
-        h1 Registration Page
+        h1 KGL Registration
       .col-md-6
         .card.p-4.shadow-lg.rounded
-          svg.mx-auto.d-block(xmlns='http://www.w3.org/2000/svg' width='80px' height='80px' fill='currentColor' viewbox='0 0 16 16')
+          svg.mx-auto.d-block.mb-3(xmlns='http://www.w3.org/2000/svg' width='80px' height='80px' fill='currentColor' viewbox='0 0 16 16')
             path(d='M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z')
-          h3.text-center.mb-3 KGL Registration
+          h3.text-center.mb-4 KGL Registration
           form#registration-form(action='/register' method='post')
             .mb-3
               label.form-label(for='name') Name
-              input#name.form-control(type='text' aria-describedby='name' name='name' )
+              input#name.form-control(type='text' name='name' required)
+              .invalid-feedback#name-error
             .mb-3
               label.form-label(for='role') Role:
-              select#role.form-select(name='role' )
+              select#role.form-select(name='role' required)
                 option(value='manager') Manager
                 option(value='salesagent') Sales Agent
                 option(value='director') Director
             .mb-3
               label.form-label(for='branch') Branch:
-              select#branch.form-select(name='branch' )
+              select#branch.form-select(name='branch' required)
                 option(value='maganjo') Maganjo
                 option(value='matugga') Matugga
             .mb-3
               label.form-label(for='emailaddress') Email address
-              input#emailaddress.form-control(type='email' aria-describedby='emailHelp' name='emailaddress' )
+              input#emailaddress.form-control(type='email' name='emailaddress' required)
+              .invalid-feedback#email-error
             .mb-3
               label.form-label(for='password') Password
-              input#password.form-control(type='password' name='password' )
+              input#password.form-control(type='password' name='password' required)
+              .invalid-feedback#password-error
             .mb-3
               label.form-label(for='passwordrepeat') Password Repeat
-              input#passwordrepeat.form-control(type='password' name='passwordrepeat' )
-            button#submit-button.btn.btn-primary.w-100(type='submit') Submit
+              input#passwordrepeat.form-control(type='password' name='passwordrepeat' required)
+              .invalid-feedback#password-repeat-error
+            button.btn.btn-primary.w-100(type='submit') Submit
   script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous')
   script(src='/js/registration.js')
