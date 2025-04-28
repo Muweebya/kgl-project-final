@@ -8,7 +8,9 @@ html
   body
     h1 Sales
     .container
-      form#sales-form(action='/sales/addSale/' + produce._id, method='post')
+      if error
+        .alert.alert-danger #{error}
+      form#sales-form(action='/sales/addSale', method='post')
         .mb-3
           label.form-label(for='produceName') Produce Name
           select#produceName.form-control(name='producename')

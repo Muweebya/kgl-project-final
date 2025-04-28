@@ -15,13 +15,19 @@ const isAuthenticated = (req, res, next) => {
 
 // Add new product form route
 router.get("/addProduct", isAuthenticated, (req, res) => {
-  res.render("procurement");
+  res.render("procurement", { 
+    currentUser: req.user,
+    branch: req.user.branch
+  });
 });
 
 // Submit new product form route
 router.post("/addProduct", isAuthenticated, async (req, res) => { 
   try {
-    const newProduce = new Produce(req.body);
+    const newProduce = new Produce({
+      ...req.body,
+      branch: req.user.branch // Use the authenticated user's branch
+    });
     await newProduce.save();
     console.log("New produce added:", newProduce);
     res.redirect("/procurement/procuredProduceList");
@@ -29,7 +35,9 @@ router.post("/addProduct", isAuthenticated, async (req, res) => {
     console.error("Error adding product:", error);
     res.status(400).render("procurement", { 
       error: "Failed to add product",
-      formData: req.body // Pass back form data to preserve user input
+      formData: req.body,
+      currentUser: req.user,
+      branch: req.user.branch
     });
   }
 });
@@ -82,10 +90,19 @@ router.get("/updateProduct/:id", isAuthenticated, async (req, res) => {
 // Submit update product form
 router.post("/updateProduct", isAuthenticated, async (req, res) => {
   try {
-    // Use your existing variable name
-    const updateProduct = await Produce.findOneAndUpdate(
-      { _id: req.query.id },
-      req.body,
+    const id = req.query.id;
+    if (!id) {
+      return res.status(400).render("error", { 
+        message: "Product ID is required for update" 
+      });
+    }
+
+    const updateProduct = await Produce.findByIdAndUpdate(
+      id,
+      {
+        ...req.body,
+        branch: req.user.branch // Ensure branch is set to user's branch
+      },
       { new: true }
     );
     
@@ -95,15 +112,13 @@ router.post("/updateProduct", isAuthenticated, async (req, res) => {
       });
     }
     
-    // Add logging to check if update is successful
     console.log("Updated product:", updateProduct);
-    
-    // Use absolute path for redirect
     res.redirect("/procurement/procuredProduceList");
   } catch (error) {
     console.error("Update error:", error);
-    res.status(400).render("error", { 
-      message: "Unable to update item in the database" 
+    res.status(400).render("updateproduce", { 
+      error: "Failed to update product. Please try again.",
+      produce: req.body
     });
   }
 });

@@ -33,7 +33,7 @@ html
                 td #{creditor.buyername}
                 td #{creditor.location}
                 td #{creditor.nationalid}
-                td #{creditor.contact}
+                td #{creditor.contact ? (String(creditor.contact).startsWith('0') ? String(creditor.contact) : '0' + String(creditor.contact)) : ''}
                 td #{creditor.duedate}
                 td #{moment(creditor.dateofdispatch).format('DD-MM-YYYY')}
                 td #{creditor.producename}

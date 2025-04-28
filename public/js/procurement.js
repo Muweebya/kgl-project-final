@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
       let tonnage = document.getElementById("tonnage").value.trim();
-      if (!/^[0-9]{3,}$/.test(tonnage)) {
-          showError("tonnageError", "Tonnage must be numeric and at least 3 digits.");
+      if (!/^[0-9]{1,}$/.test(tonnage)) {
+          showError("tonnageError", "Tonnage must be numeric and at least 1 digits.");
           isValid = false;
       }
 

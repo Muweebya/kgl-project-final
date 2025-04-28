@@ -15,13 +15,29 @@ const isAuthenticated = (req, res, next) => {
 
 // Add new creditor form route
 router.get("/addCreditor", isAuthenticated, (req, res) => {
-  res.render("credit");
+  res.render("credit", { 
+    currentUser: req.user,
+    branch: req.user.branch
+  });
 });
 
 // Submit new creditor form route
 router.post("/addCreditor", isAuthenticated, async (req, res) => { 
   try {
-    const newCredit = new Credit(req.body);
+    // Validate contact number
+    if (!/^0\d{9}$/.test(req.body.contact)) {
+      return res.status(400).render("credit", { 
+        error: "Contact must be 10 digits and start with 0",
+        formData: req.body,
+        currentUser: req.user,
+        branch: req.user.branch
+      });
+    }
+    const newCredit = new Credit({
+      ...req.body,
+      branch: req.user.branch, // Use the authenticated user's branch
+      salesagentname: req.user.name // Use the authenticated user's name
+    });
     await newCredit.save();
     console.log("New creditor added:", newCredit);
     res.redirect("/credit/creditorsList");
@@ -29,7 +45,9 @@ router.post("/addCreditor", isAuthenticated, async (req, res) => {
     console.error("Error adding creditor:", error);
     res.status(400).render("credit", { 
       error: "Failed to add creditor",
-      formData: req.body // Pass back form data to preserve user input
+      formData: req.body,
+      currentUser: req.user,
+      branch: req.user.branch
     });
   }
 });

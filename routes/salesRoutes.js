@@ -39,64 +39,53 @@ router.get("/addSale", isAuthenticated, async (req, res) => {
 router.post("/addSale", isAuthenticated, async (req, res) => {
   if (req.user.role === "salesagent" || req.user.role === "manager") {
     try {
-      const { tonnage } = req.body;
-      const produce = await Produce.findById(req.body.producename);
+      const { tonnage, producename } = req.body;
+      const produce = await Produce.findById(producename);
 
       if (!produce) {
-        return res.status(404).send("Produce not found");
+        return res.status(404).render("sales", { 
+          error: "Produce not found",
+          products: await Produce.find({ branch: req.user.branch }).sort({ $natural: -1 }),
+          currentUser: req.user
+        });
       }
 
       if (produce.tonnage < tonnage) {
-        return res
-          .status(400)
-          .send(`Not enough tonnage in stock, there are ${produce.tonnage}kg in stock`);
+        return res.status(400).render("sales", { 
+          error: `Not enough tonnage in stock, there are ${produce.tonnage}kg in stock`,
+          products: await Produce.find({ branch: req.user.branch }).sort({ $natural: -1 }),
+          currentUser: req.user
+        });
       }
       
-      if (produce && produce.tonnage > 0) {
-        const saleMade = new Sale({
-          producename: req.body.producename,
-          buyersname: req.body.buyersname,
-          dateandtime: req.body.dateandtime,
-          tonnage: req.body.tonnage,
-          amountpaid: req.body.amountpaid,
-          salesagent: req.body.salesagent,
-          paymentmethod: req.body.paymentmethod,
-          branch: req.body.branch,
-        });
+      const saleMade = new Sale({
+        producename: producename,
+        buyersname: req.body.buyersname,
+        dateandtime: req.body.dateandtime,
+        tonnage: tonnage,
+        amountpaid: req.body.amountpaid,
+        salesagent: req.user._id,
+        paymentmethod: req.body.paymentmethod,
+        branch: req.user.branch,
+      });
 
-        await saleMade.save();
+      await saleMade.save();
 
-        // Decrease the tonnage of produce
-        produce.tonnage -= tonnage;
-        console.log("New tonnage after sale:", produce.tonnage);
-        await produce.save();
+      // Decrease the tonnage of produce
+      produce.tonnage -= tonnage;
+      await produce.save();
 
-        res.redirect("/sales/salesList");
-      } else {
-        return res.status(404).json({error: 'Produce not found or sold out'});
-      }
+      res.redirect("/sales/salesList");
     } catch (error) {
       console.error("Error processing sale:", error);
-      res.status(400).send("Failed to add sale");
+      res.status(400).render("sales", { 
+        error: "Failed to add sale. Please try again.",
+        products: await Produce.find({ branch: req.user.branch }).sort({ $natural: -1 }),
+        currentUser: req.user
+      });
     }
   } else {
-    res.send("You are not allowed to perform this action");
-  }
-});
-
-// Add a completely new sale (without produce ID)
-router.post("/addSale", isAuthenticated, async (req, res) => {
-  try {
-    const newSale = new Sale(req.body);
-    await newSale.save();
-    console.log("New sale added:", newSale);
-    res.redirect("/sales/salesList");
-  } catch (error) {
-    console.error("Error adding sale:", error);
-    res.status(400).render("sales", {
-      error: "Failed to add sale",
-      formData: req.body
-    });
+    res.status(403).send("You are not allowed to perform this action");
   }
 });
 
@@ -127,7 +116,12 @@ router.get("/salesList", isAuthenticated, async (req, res) => {
 // Display update sale form
 router.get("/updateSale", isAuthenticated, async (req, res) => {
   try {
-    const updateSale = await Sale.findById(req.body)
+    const saleId = req.query.id;
+    if (!saleId) {
+      return res.status(400).render("error", { message: "Sale ID is required" });
+    }
+
+    const updateSale = await Sale.findById(saleId)
       .populate("producename")
       .populate("salesagent");
       
@@ -135,12 +129,14 @@ router.get("/updateSale", isAuthenticated, async (req, res) => {
       return res.status(404).render("error", { message: "Sale not found" });
     }
     
-    // Also fetch all produce to populate the dropdown
-    const allProduce = await Produce.find();
+    // Fetch produce from the same branch
+    const products = await Produce.find({ branch: req.user.branch });
     
     res.render("updatesale", { 
       sale: updateSale,
-      allProduce
+      products,
+      currentUser: req.user,
+      error: null
     });
   } catch (error) {
     console.error("Error finding sale to update:", error);
@@ -151,12 +147,46 @@ router.get("/updateSale", isAuthenticated, async (req, res) => {
 // Submit update sale form
 router.post("/updateSale", isAuthenticated, async (req, res) => {
   try {
-    console.log("Update sale request received for ID:", req.params.id);
-    console.log("Update data:", req.body);
+    const saleId = req.query.id;
+    if (!saleId) {
+      return res.status(400).render("error", { message: "Sale ID is required" });
+    }
 
+    const { tonnage, producename } = req.body;
+    const sale = await Sale.findById(saleId).populate("producename");
+    
+    if (!sale) {
+      return res.status(404).render("error", { message: "Sale not found" });
+    }
+
+    const produce = await Produce.findById(producename);
+    if (!produce) {
+      return res.status(404).render("error", { message: "Produce not found" });
+    }
+
+    // Calculate tonnage difference
+    const oldTonnage = sale.tonnage;
+    const newTonnage = tonnage;
+    const tonnageDiff = newTonnage - oldTonnage;
+
+    // Check if there's enough produce in stock
+    if (tonnageDiff > 0 && produce.tonnage < tonnageDiff) {
+      return res.status(400).render("updatesale", {
+        error: `Not enough tonnage in stock. There are ${produce.tonnage}kg available.`,
+        sale: await Sale.findById(saleId).populate("producename").populate("salesagent"),
+        products: await Produce.find({ branch: req.user.branch }),
+        currentUser: req.user
+      });
+    }
+
+    // Update the sale
     const updateSale = await Sale.findByIdAndUpdate(
-      
-      req.body,
+      saleId,
+      {
+        ...req.body,
+        salesagent: req.user._id,
+        branch: req.user.branch
+      },
       { new: true }
     );
 
@@ -164,12 +194,19 @@ router.post("/updateSale", isAuthenticated, async (req, res) => {
       return res.status(404).render("error", { message: "Sale not found for update" });
     }
 
-    console.log("Updated sale:", updateSale);
-    res.redirect("/sales/salesList");
+    // Update produce tonnage
+    produce.tonnage -= tonnageDiff;
+    await produce.save();
 
+    res.redirect("/sales/salesList");
   } catch (error) {
     console.error("Update error:", error);
-    res.status(400).render("error", { message: "Unable to update item in the database" });
+    res.status(400).render("updatesale", {
+      error: "Failed to update sale. Please try again.",
+      sale: await Sale.findById(req.query.id).populate("producename").populate("salesagent"),
+      products: await Produce.find({ branch: req.user.branch }),
+      currentUser: req.user
+    });
   }
 });
 
