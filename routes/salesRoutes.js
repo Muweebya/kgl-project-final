@@ -105,7 +105,8 @@ router.get("/salesList", isAuthenticated, async (req, res) => {
       
     res.render("salesList", { 
       sales: items, 
-      branch: req.user ? req.user.branch : null 
+      branch: req.user ? req.user.branch : null,
+      userRole: req.user.role
     });
   } catch (error) {
     console.error("Error fetching sales list:", error);

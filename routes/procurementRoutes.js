@@ -46,19 +46,21 @@ router.post("/addProduct", isAuthenticated, async (req, res) => {
 router.get("/procuredProduceList", isAuthenticated, async (req, res) => {
   try {
     // Check if user has branch information (for branch filtering)
-    if (req.user && req.user.branch) {
+    if (req.user && req.user.role != 'director' && req.user.branch) {
       const branch = req.user.branch;
       // Only show data from the user's branch
       const products = await Produce.find({ branch }).sort({ $natural: -1 });
       res.render("procuredProduceList", { 
         procuredProduce: products,
-        branch: branch
+        branch: branch,
+        userRole: req.user.role
       });
     } else {
       // If no branch filtering needed, show all products
       const products = await Produce.find().sort({ $natural: -1 });
       res.render("procuredProduceList", { 
-        procuredProduce: products 
+        procuredProduce: products,
+        userRole: req.user.role,
       });
     }
   } catch (error) {

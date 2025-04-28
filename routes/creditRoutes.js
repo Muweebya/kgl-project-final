@@ -17,7 +17,8 @@ const isAuthenticated = (req, res, next) => {
 router.get("/addCreditor", isAuthenticated, (req, res) => {
   res.render("credit", { 
     currentUser: req.user,
-    branch: req.user.branch
+    branch: req.user.branch,
+    
   });
 });
 
@@ -62,13 +63,15 @@ router.get("/creditorsList", isAuthenticated, async (req, res) => {
       const buyers = await Credit.find({ branch }).sort({ $natural: -1 });
       res.render("creditorsList", { 
         creditors: buyers,
-        branch: branch 
+        branch: branch,
+        userRole: req.user.role 
       });
     } else {
       // If no branch filtering needed, show all creditors
       const buyers = await Credit.find().sort({ $natural: -1 });
       res.render("creditorsList", { 
-        creditors: buyers 
+        creditors: buyers,
+        userRole: req.user.role
       });
     }
   } catch (error) {

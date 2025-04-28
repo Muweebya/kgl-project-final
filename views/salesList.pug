@@ -12,6 +12,32 @@ html
     )
 
   body
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+      .container
+        if userRole == 'salesagent'
+          a.navbar-brand(href='/salesagentDash/' + branch) Sales Agent Dashboard
+        else if userRole == 'manager'
+          a.navbar-brand(href='/managerDash/' + branch) Manager Dashboard
+        else if userRole == 'director'
+          a.navbar-brand(href='/directorDash') Director Dashboard
+        button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+          span.navbar-toggler-icon
+        #navbarNav.collapse.navbar-collapse
+          ul.navbar-nav.ms-auto
+            if userRole == 'salesagent'
+              li.nav-item
+                a.nav-link(href='/sales/salesList') My Sales
+              li.nav-item
+                a.nav-link(href='/credit/creditorsList') My Creditors
+            else if userRole == 'manager' || userRole == 'director'
+              li.nav-item
+                a.nav-link(href='/procurement/procuredProduceList') Procured Produce
+              li.nav-item
+                a.nav-link(href='/sales/salesList') Sales
+              li.nav-item
+                a.nav-link(href='/credit/creditorsList') Creditors
+            li.nav-item
+              a.nav-link(href='/logout') Logout
     .container.mt-5
       h1.mb-4.text-center Sold Produce
 
