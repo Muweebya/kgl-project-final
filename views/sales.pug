@@ -1,66 +1,65 @@
 doctype html
-head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  title Sales Page
-  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet')
-h1 Sales
-.container
-  form#sales-form(action='/sales/addSale' method='post')
-    .mb-3
-      label.form-label(for='produceName') Produce Name
-      select#produceName.form-control( name='producename')
-        option(value=produce._id) #{produce.producename} 
-      span#nameError.error.text-danger
-            
-      
-    .mb-3
-      label.form-label(for='buyersName') Buyer&apos;s Name
-      input#buyersName.form-control(type='text' name='buyersname')
-      span#buyerError.error.text-danger
-      
-    .mb-3
-      label.form-label(for='dateTime') Date &amp; Time
-      input#dateTime.form-control(type='datetime-local' name='dateandtime')
-      span#dateError.error.text-danger
-      
-    .mb-3
-      label.form-label(for='tonnage') Tonnage (in kgs)
-      input#tonnage.form-control(type='number' min='1' name='tonnage')
-      span#tonnageError.error.text-danger
-      
-    .mb-3
-      label.form-label(for='cost') Amount Paid (in UgX)
-      input#cost.form-control(type='number' min='1' name='amountpaid')
-      span#amountError.error.text-danger
-      
-    .mb-3
-      label.form-label(for='salesAgentName') Sales Agent&apos;s Name
-      select#salesAgentName.form-control(name="salesagent")
-        if currentUser
-          option(value = user._id) #{user.name}
-      span#agentError.error.text-danger
-      
-    .mb-3
-      label.form-label(for='paymentMethod') Payment Method
-      select#paymentMethod.form-control(type='text' name='paymentmethod')
-        option(selected='') Select Payment Method
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Sales Page
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css')
+  body
+    h1 Sales
+    .container
+      form#sales-form(action='/sales/addSale/' + produce._id, method='post')
+        .mb-3
+          label.form-label(for='produceName') Produce Name
+          select#produceName.form-control(name='producename')
+            each product in products
+              option(value=product._id) #{product.producename}
+          span#nameError.error.text-danger
+
+        .mb-3
+          label.form-label(for='buyersName') Buyer's Name
+          input#buyersName.form-control(type='text', name='buyersname')
+          span#buyerError.error.text-danger
+
+        .mb-3
+          label.form-label(for='dateTime') Date & Time
+          input#dateTime.form-control(type='datetime-local', name='dateandtime')
+          span#dateError.error.text-danger
+
+        .mb-3
+          label.form-label(for='tonnage') Tonnage (in kgs)
+          input#tonnage.form-control(type='number', min='1', name='tonnage')
+          span#tonnageError.error.text-danger
+
+        .mb-3
+          label.form-label(for='cost') Amount Paid (in UgX)
+          input#cost.form-control(type='number', min='1', name='amountpaid')
+          span#amountError.error.text-danger
+
+        .mb-3
+          label.form-label(for='salesAgentName') Sales Agent's Name
+          select#salesAgentName.form-control(name='salesagent')
+            if currentUser
+              option(value=currentUser._id) #{currentUser.name}
+          span#agentError.error.text-danger
+
+        .mb-3
+          label.form-label(for='paymentMethod') Payment Method
+          select#paymentMethod.form-control(name='paymentmethod')
+            option(value='') Select Payment Method
             option(value='mobilemoney') Mobile Money
             option(value='cash') Cash
             option(value='banktransfer') Bank Transfer
+          span#paymentError.error.text-danger
 
-      span#paymentError.error.text-danger
-
-    .mb-3
-      label.form-label(for='branch') Branch
-      select#branch.form-control(type='text' name='branch')
-        option(selected='') Branch
+        .mb-3
+          label.form-label(for='branch') Branch
+          select#branch.form-control(name='branch')
+            option(value='') Select Branch
             option(value='maganjo') Maganjo
             option(value='matugga') Matugga
-           
+          span#branchError.error.text-danger
 
-      span#branchError.error.text-danger
-      
-    button.btn.btn-primary(type='submit') Submit
- 
-script(src='/js/sales.js')
+        button.btn.btn-primary(type='submit') Submit
+
+    script(src='/js/sales.js')

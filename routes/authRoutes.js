@@ -54,7 +54,7 @@ router.get("/login", (req, res) => {
     res.render("login");
 });
 
-router.post("/login", passport.authenticate("local", { failureRedirect: "/register/login" }), (req, res) => {
+router.post("/login", passport.authenticate("local", { failureRedirect: "/login" }), (req, res) => {
     console.log("User logged in:", req.user.username);
     const role = req.user.role;
     const branch = req.user.branch; // e.g., "Matugga" or "Maganjo"

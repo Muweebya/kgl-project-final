@@ -1,10 +1,10 @@
 const express = require("express");
 const isAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.redirect('/register/login'); // Redirect to login page if not authenticated
-  };
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/login'); // Redirect to login page if not authenticated
+};
 
 const router = express.Router();
 
@@ -84,18 +84,19 @@ router.get("/directorDash", isAuthenticated, async (req, res) => {
       totalCostGnuts = totalCostGnuts[0] ?? { totalQuantity: 0, totalCost: 0 };
 
       // Revenues from selling produce
+      // Fix: Need to join with the produce collection, not the sales collection
       let totalRevBeans = await Sale.aggregate([
         { $lookup: {
-            from: "produces",
+            from: "produces", // Collection name for Produce (make sure this is correct)
             localField: "producename",
             foreignField: "_id",
-            as: "produce"
+            as: "produceDetails"
           }
         },
-        { $unwind: "$produce" },
-        { $match: { "produce.producename": "beans" } },
+        { $unwind: "$produceDetails" },
+        { $match: { "produceDetails.producename": "beans" } },
         { $group: {
-            _id: "$produce.producename",
+            _id: "$produceDetails.producename",
             totalQuantity: { $sum: "$tonnage" },
             totalAmountPaid: { $sum: "$amountpaid" }
           }
@@ -107,13 +108,13 @@ router.get("/directorDash", isAuthenticated, async (req, res) => {
             from: "produces",
             localField: "producename",
             foreignField: "_id",
-            as: "produce"
+            as: "produceDetails"
           }
         },
-        { $unwind: "$produce" },
-        { $match: { "produce.producename": "grains" } },
+        { $unwind: "$produceDetails" },
+        { $match: { "produceDetails.producename": "grains" } },
         { $group: {
-            _id: "$produce.producename",
+            _id: "$produceDetails.producename",
             totalQuantity: { $sum: "$tonnage" },
             totalAmountPaid: { $sum: "$amountpaid" }
           }
@@ -125,13 +126,13 @@ router.get("/directorDash", isAuthenticated, async (req, res) => {
             from: "produces",
             localField: "producename",
             foreignField: "_id",
-            as: "produce"
+            as: "produceDetails"
           }
         },
-        { $unwind: "$produce" },
-        { $match: { "produce.producename": "maize" } },
+        { $unwind: "$produceDetails" },
+        { $match: { "produceDetails.producename": "maize" } },
         { $group: {
-            _id: "$produce.producename",
+            _id: "$produceDetails.producename",
             totalQuantity: { $sum: "$tonnage" },
             totalAmountPaid: { $sum: "$amountpaid" }
           }
@@ -143,13 +144,13 @@ router.get("/directorDash", isAuthenticated, async (req, res) => {
             from: "produces",
             localField: "producename",
             foreignField: "_id",
-            as: "produce"
+            as: "produceDetails"
           }
         },
-        { $unwind: "$produce" },
-        { $match: { "produce.producename": "cowpeas" } },
+        { $unwind: "$produceDetails" },
+        { $match: { "produceDetails.producename": "cowpeas" } },
         { $group: {
-            _id: "$produce.producename",
+            _id: "$produceDetails.producename",
             totalQuantity: { $sum: "$tonnage" },
             totalAmountPaid: { $sum: "$amountpaid" }
           }
@@ -161,13 +162,13 @@ router.get("/directorDash", isAuthenticated, async (req, res) => {
             from: "produces",
             localField: "producename",
             foreignField: "_id",
-            as: "produce"
+            as: "produceDetails"
           }
         },
-        { $unwind: "$produce" },
-        { $match: { "produce.producename": "soybeans" } },
+        { $unwind: "$produceDetails" },
+        { $match: { "produceDetails.producename": "soybeans" } },
         { $group: {
-            _id: "$produce.producename",
+            _id: "$produceDetails.producename",
             totalQuantity: { $sum: "$tonnage" },
             totalAmountPaid: { $sum: "$amountpaid" }
           }
@@ -179,13 +180,13 @@ router.get("/directorDash", isAuthenticated, async (req, res) => {
             from: "produces",
             localField: "producename",
             foreignField: "_id",
-            as: "produce"
+            as: "produceDetails"
           }
         },
-        { $unwind: "$produce" },
-        { $match: { "produce.producename": "gnuts" } },
+        { $unwind: "$produceDetails" },
+        { $match: { "produceDetails.producename": "gnuts" } },
         { $group: {
-            _id: "$produce.producename",
+            _id: "$produceDetails.producename",
             totalQuantity: { $sum: "$tonnage" },
             totalAmountPaid: { $sum: "$amountpaid" }
           }
@@ -219,12 +220,9 @@ router.get("/directorDash", isAuthenticated, async (req, res) => {
       res.status(400).send("Unable to find items in the db");
       console.error("Aggregation error:", err.message);
     }
+  } else {
+    res.status(403).send("Access denied. Director role required.");
   }
 });
-
- 
-
-  // Check if user has permission for this branch
- 
 
 module.exports = router;

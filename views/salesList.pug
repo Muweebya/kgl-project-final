@@ -32,16 +32,15 @@ html
           if sales && sales.length
             each sale in sales
               tr
-                td #{sale.producename}
+                td #{sale.producename.producename}
                 td #{sale.buyersname}
-                td #{sale.dateandtime}
+                td #{sale.dateandtime.toLocaleString()}
                 td #{sale.tonnage}
                 td #{sale.amountpaid}
-                td #{sale.salesagent}
+                td #{sale.salesagent.name}
                 td #{sale.paymentmethod}
                 td #{sale.branch}
                 
-
                 td
                   a.btn.btn-sm.btn-primary(href="/sales/updateSale/" + sale._id) Update
                   form(action="/sales/deleteSale", method="post", style="display:inline")
@@ -49,7 +48,7 @@ html
                     button.btn.btn-danger.btn-sm(type="submit" onclick="return confirm('Are you sure you want to delete this sale?')") Delete
           else
             tr
-              td(colspan="8", class="text-center") No sales found!
+              td(colspan="9", class="text-center") No sales found!
 
       .mt-4.text-end
-        a.btn.btn-success(href="/sales/addSale") Add Sale
+        a.btn.btn-success(href="/procurement/procuredProduceList") Add Sale
