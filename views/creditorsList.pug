@@ -60,8 +60,8 @@ html
                 td #{creditor.location}
                 td #{creditor.nationalid}
                 td #{creditor.contact ? (String(creditor.contact).startsWith('0') ? String(creditor.contact) : '0' + String(creditor.contact)) : ''}
-                td #{creditor.duedate}
-                td #{moment(creditor.dateofdispatch).format('DD-MM-YYYY')}
+                td #{creditor.duedate.toLocaleString()}
+                td #{creditor.dateofdispatch.toLocaleString()}
                 td #{creditor.producename}
                 td #{creditor.typeofproduce}
                 td #{creditor.tonnage}

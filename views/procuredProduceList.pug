@@ -53,7 +53,7 @@ html
               tr
                 td #{produce.producename}
                 td #{produce.typeofproduce}
-                td #{moment(produce.dateandtime).format('DD-MM-YYYY')}
+                td #{produce.dateandtime.toLocaleString()}
                 td #{produce.tonnage}
                 td #{produce.dealername}
                 td #{produce.branch}

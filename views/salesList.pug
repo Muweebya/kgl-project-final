@@ -58,14 +58,14 @@ html
           if sales && sales.length
             each sale in sales
               tr
-                td #{sale.producename.producename}
-                td #{sale.buyersname}
-                td #{sale.dateandtime.toLocaleString()}
-                td #{sale.tonnage}
-                td #{sale.amountpaid}
-                td #{sale.salesagent.name}
-                td #{sale.paymentmethod}
-                td #{sale.branch}
+                td #{sale.producename && sale.producename.producename ? sale.producename.producename : 'N/A'}
+                td #{sale.buyersname ? sale.buyersname : 'N/A'}
+                td #{sale.dateandtime ? sale.dateandtime.toLocaleString() : 'N/A'}
+                td #{sale.tonnage ? sale.tonnage : 'N/A'}
+                td #{sale.amountpaid ? sale.amountpaid : 'N/A'}
+                td #{sale.salesagent && sale.salesagent.name ? sale.salesagent.name : 'N/A'}
+                td #{sale.paymentmethod ? sale.paymentmethod : 'N/A'}
+                td #{sale.branch ? sale.branch : 'N/A'}
                 
                 td
                   a.btn.btn-sm.btn-primary(href="/sales/updateSale?id=" + sale._id) Update

@@ -57,7 +57,7 @@ router.post("/addCreditor", isAuthenticated, async (req, res) => {
 router.get("/creditorsList", isAuthenticated, async (req, res) => {
   try {
     // Check if user has branch information (for branch filtering)
-    if (req.user && req.user.branch) {
+    if (req.user && req.user.branch && req.user.role != 'director') {
       const branch = req.user.branch;
       // Only show data from the user's branch
       const buyers = await Credit.find({ branch }).sort({ $natural: -1 });

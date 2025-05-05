@@ -121,12 +121,12 @@ router.get("/updateUser/:id", isAuthenticated, async (req, res) => {
     }
 });
 
-router.post("/updateUser", isAuthenticated, async (req, res) => {
+router.post("/updateUser/:id", isAuthenticated, async (req, res) => {
     try {
-        console.log("Update user request received for ID:", req.query.id);
+        console.log("Update user request received for ID:", req.params.id);
         
         const updateUser = await Registration.findOneAndUpdate(
-            {_id: req.query.id},
+            {_id: req.params.id},
             req.body,
             {new: true}
         );
@@ -136,7 +136,7 @@ router.post("/updateUser", isAuthenticated, async (req, res) => {
         }
         
         console.log("Updated user:", updateUser);
-        res.redirect("/register/usersList");
+        res.redirect("/usersList");
     } catch (error) {
         console.error("Update error:", error);
         res.status(400).render("error", { message: "Unable to update user in the database" });
@@ -153,7 +153,7 @@ router.post("/deleteUser", isAuthenticated, async (req, res) => {
             console.log("User deleted successfully");
         }
         
-        res.redirect("back");
+        res.redirect("/usersList");
     } catch (error) {
         console.error("Delete error:", error);
         res.status(400).render("error", { message: "Unable to delete user from the database" });

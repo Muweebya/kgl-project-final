@@ -94,7 +94,7 @@ router.get("/salesList", isAuthenticated, async (req, res) => {
   try {
     let query = {};
     
-    if (req.user && req.user.branch) {
+    if (req.user && req.user.branch && req.user.role != 'director') {
       query.branch = req.user.branch;
     }
     
